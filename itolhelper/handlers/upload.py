@@ -1,3 +1,5 @@
+import argparse
+import logging
 import os
 import tempfile
 import zipfile
@@ -6,6 +8,8 @@ from typing import Any, List, Optional
 
 import requests
 from pydantic import BaseModel, Field, SecretStr
+
+logger = logging.getLogger(__name__)
 
 
 class UploadParams(BaseModel):
@@ -23,6 +27,7 @@ class Uploader:
         tree_name: Optional[str] = None,
         tree_description: Optional[str] = None,
     ) -> None:
+        self.url = "https://itol.embl.de/batch_uploader.cgi"
         self.files: List[Path] = []
         self.params: UploadParams = UploadParams(
             api_key=api_key,
@@ -52,6 +57,33 @@ class Uploader:
             zip_file = open(zip.name, "rb")
             files = {"zipFile": zip_file}
             resp = requests.post(
-                "", data=self.params.dict(exclude_none=True), files=files
+                self.url, data=self.params.dict(exclude_none=True), files=files
             )
+
+            logger.debug(resp)
             zip_file.close()
+
+
+def upload(args: argparse.Namespace) -> None:
+    api_key = os.environ.get("ITOL_APIKEY")
+
+    if args.api_key is not None:
+        api_key = args.api_key
+    elif api_key is None:
+        raise ValueError(
+            "You should set an ITOL_APIKEY environmental variable or specify by --api-key"
+        )
+
+    uploader = Uploader(
+        api_key=api_key,
+        project_name=args.project_name,
+        tree_name=args.tree_name,
+        tree_description=args.tree_description,
+    )
+
+    for path in os.listdir(os.path.abspath(args.dir)):
+        uploader.add_file(Path(path))
+
+    logger.debug(uploader)
+
+    uploader.upload()

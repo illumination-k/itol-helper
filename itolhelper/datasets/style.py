@@ -1,5 +1,10 @@
+import json
 import logging
+from pathlib import Path
 from typing import Dict, Literal, Optional, Union
+
+from ..io import read_ids
+from . import ItolDatasetsImpl
 
 logger = logging.getLogger(__name__)
 
@@ -87,3 +92,45 @@ def create_data(
             data += f",{background_color}"
 
     return data
+
+
+class Colormap:
+    def __init__(self, map: Dict[str, str], default_color="black") -> None:
+        import re
+
+        self.default_color = default_color
+        self.colormap: Dict[re.Pattern, str] = {}
+        for k, v in map.items():
+            self.colormap.setdefault(re.compile(k), v)
+
+    def get_color(self, value: str) -> str:
+        color = self.default_color
+
+        for pat, v in self.colormap.items():
+            if pat.match(value) is not None:
+                return v
+
+        return color
+
+
+class StyleGenerator(ItolDatasetsImpl):
+    @staticmethod
+    def from_path(
+        path: Union[Path, str], config_path: Union[Path, str], label: str
+    ) -> str:
+        with open(config_path) as f:
+            config = json.load(f)
+
+            default_color = config.get("default_color", "black")
+            map = config.get("colormap", {})
+
+            colormap = Colormap(map=map, default_color=default_color)
+
+        template = [TEMPLATE.replace("@label@", label)]
+
+        ids = read_ids(path)
+
+        for id in ids:
+            template.append(create_data(id=id, color=colormap.get_color(id)))
+
+        return "\n".join(template)

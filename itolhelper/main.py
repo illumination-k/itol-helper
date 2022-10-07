@@ -1,10 +1,37 @@
 import argparse
 
-from handlers.upload import UploadParams
+import handlers
+from pretty_logger import set_loglevel, set_loglevel_args
 
 
 def main():
-    print(UploadParams(api_key="aaa", project_name="bbb").dict(exclude_none=True))
+    parser = argparse.ArgumentParser()
+    parser = set_loglevel_args(parser)
+
+    subparsers = parser.add_subparsers()
+
+    upload_parser = subparsers.add_parser("upload")
+    upload_parser.add_argument(
+        "--api-key",
+        type=str,
+        default=None,
+        help="Using ITOL_APIKEY environment variable for default",
+    )
+
+    upload_parser.add_argument("-p", "--project-name", type=str, required=True)
+    upload_parser.add_argument("--tree-name", type=str, default=None)
+    upload_parser.add_argument("--tree-description", type=str, default=None)
+    upload_parser.add_argument("-d", "--dir", type=str, required=True)
+    upload_parser.set_defaults(handler=handlers.upload)
+
+    args = parser.parse_args()
+
+    set_loglevel(args.loglevel)
+
+    if hasattr(args, "handler"):
+        args.handler(args)
+    else:
+        parser.print_help()
 
 
 if __name__ == "__main__":
