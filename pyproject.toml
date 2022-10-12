@@ -19,6 +19,9 @@ mypy = "^0.950"
 types-requests = "^2.27.27"
 pytest = "^7.1.2"
 
+[tool.poetry.scripts]
+ih = "itolhelper.main:main"
+
 [tool.mypy]
 namespace_packages = true
 
