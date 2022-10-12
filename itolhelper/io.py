@@ -3,8 +3,8 @@ from enum import Enum
 from pathlib import Path
 from typing import List, Union
 
-import newick
-from Bio import SeqIO
+import newick  # type: ignore
+from Bio import SeqIO  # type: ignore
 
 PathLike = Union[Path, str]
 

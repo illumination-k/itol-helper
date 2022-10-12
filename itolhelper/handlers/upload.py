@@ -56,9 +56,7 @@ class Uploader:
         with self._prepare_zipfile() as zip:
             zip_file = open(zip.name, "rb")
             files = {"zipFile": zip_file}
-            resp = requests.post(
-                self.url, data=self.params.dict(exclude_none=True), files=files
-            )
+            resp = requests.post(self.url, data=self.params.dict(exclude_none=True), files=files)
 
             logger.debug(resp)
             zip_file.close()
@@ -69,7 +67,8 @@ def upload(args: argparse.Namespace) -> None:
 
     if args.api_key is not None:
         api_key = args.api_key
-    elif api_key is None:
+
+    if api_key is None:
         raise ValueError(
             "You should set an ITOL_APIKEY environmental variable or specify by --api-key"
         )

@@ -1,7 +1,7 @@
 import argparse
 
-import handlers
-from pretty_logger import set_loglevel, set_loglevel_args
+from itolhelper import handlers
+from itolhelper.pretty_logger import set_loglevel, set_loglevel_args
 
 
 def main():
@@ -23,6 +23,12 @@ def main():
     upload_parser.add_argument("--tree-description", type=str, default=None)
     upload_parser.add_argument("-d", "--dir", type=str, required=True)
     upload_parser.set_defaults(handler=handlers.upload)
+
+    text_parser = subparsers.add_parser("text")
+    text_parser.add_argument("-i", "--ids", type=str, required=True, help="contains id file")
+    text_parser.add_argument("-c", "--config", type=str, required=True, help="config file")
+    text_parser.add_argument("-l", "--label", type=str, default="text")
+    text_parser.set_defaults(handlers=handlers.text)
 
     args = parser.parse_args()
 
