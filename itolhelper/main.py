@@ -28,7 +28,7 @@ def main():
     text_parser.add_argument("-i", "--ids", type=str, required=True, help="contains id file")
     text_parser.add_argument("-c", "--config", type=str, required=True, help="config file")
     text_parser.add_argument("-l", "--label", type=str, default="text")
-    text_parser.set_defaults(handlers=handlers.text)
+    text_parser.set_defaults(handler=handlers.text)
 
     args = parser.parse_args()
 

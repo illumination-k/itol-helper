@@ -1,6 +1,9 @@
+import logging
 from typing import Dict, List, Literal
 
 from .config import DatasetConfig
+
+logger = logging.getLogger(__name__)
 
 TEMPLATE = """DATASET_TEXT
 #In text datasets, each ID is associated to text label, which can be displayed directly on the node branch, or outside the tree
@@ -89,11 +92,12 @@ def create_data(
 def generate_text(ids: List[str], config: DatasetConfig, label: str = "text") -> str:
     colormap = config.colormap
     template = [TEMPLATE.replace("@label@", label)]
+    logger.debug(config.id_to_name)
     for id in ids:
         _label = config.id_to_name.get(id)
 
         if _label is not None:
-            label = f"({label})"
+            label = f"({_label})"
         else:
             label = ""
 

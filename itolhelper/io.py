@@ -1,10 +1,13 @@
+import logging
 import os
 from enum import Enum
 from pathlib import Path
 from typing import List, Union
 
-import newick  # type: ignore
 from Bio import SeqIO  # type: ignore
+from Bio.Phylo import NewickIO
+
+logger = logging.getLogger(__name__)
 
 PathLike = Union[Path, str]
 
@@ -45,7 +48,12 @@ def _read_ids_from_fasta(path: Path) -> List[str]:
 
 
 def _read_ids_from_newick(path: Path) -> List[str]:
-    return [node.name for node in newick.read(path)]
+    ids = []
+    with open(path) as handle:
+        for tree in NewickIO.parse(handle=handle):
+            for clade in tree.get_terminals():
+                ids.append(clade.name)
+    return ids
 
 
 def _read_ids_from_phy(path: Path) -> List[str]:
@@ -74,7 +82,7 @@ def read_ids(path: PathLike) -> List[str]:
         path = Path(path)
 
     file_type = FileType.detect(path)
-
+    logger.debug(file_type)
     match file_type:
         case FileType.fasta:
             ids = _read_ids_from_fasta(path)
