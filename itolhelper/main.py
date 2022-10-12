@@ -29,6 +29,12 @@ def main():
     text_parser.add_argument("-c", "--config", type=str, required=True, help="config file")
     text_parser.add_argument("-l", "--label", type=str, default="text")
     text_parser.set_defaults(handler=handlers.text)
+    
+    style_parser = subparsers.add_parser("style")
+    style_parser.add_argument("-i", "--ids", type=str, required=True, help="contains id file")
+    style_parser.add_argument("-c", "--config", type=str, required=True, help="config file")
+    style_parser.add_argument("-l", "--label", type=str, default="style")
+    style_parser.set_defaults(handler=handlers.style)
 
     args = parser.parse_args()
 
