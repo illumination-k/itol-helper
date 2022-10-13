@@ -25,16 +25,31 @@ def main():
     upload_parser.set_defaults(handler=handlers.upload)
 
     text_parser = subparsers.add_parser("text")
-    text_parser.add_argument("-i", "--ids", type=str, required=True, help="contains id file")
+    text_parser.add_argument(
+        "-i", "--ids", type=str, required=True, help="file contained ID (nwk, fasta, phy or txt)"
+    )
     text_parser.add_argument("-c", "--config", type=str, required=True, help="config file")
     text_parser.add_argument("-l", "--label", type=str, default="text")
     text_parser.set_defaults(handler=handlers.text)
-    
+
     style_parser = subparsers.add_parser("style")
-    style_parser.add_argument("-i", "--ids", type=str, required=True, help="contains id file")
+    style_parser.add_argument(
+        "-i", "--ids", type=str, required=True, help="file contained ID (nwk, fasta, phy or txt)"
+    )
     style_parser.add_argument("-c", "--config", type=str, required=True, help="config file")
     style_parser.add_argument("-l", "--label", type=str, default="style")
     style_parser.set_defaults(handler=handlers.style)
+
+    alignment_parser = subparsers.add_parser("alignment")
+    alignment_parser.add_argument(
+        "-i",
+        "--input",
+        type=str,
+        required=True,
+        help="file contained multple alignment. fasta and phy are supported",
+    )
+    alignment_parser.add_argument("-l", "--label", type=str, default="alignment")
+    alignment_parser.set_defaults(handler=handlers.alignment)
 
     args = parser.parse_args()
 

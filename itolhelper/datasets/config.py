@@ -8,6 +8,7 @@ from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 
+
 class ColorMap(BaseModel):
     default_color: str = "black"
     map: Dict[Pattern, str]

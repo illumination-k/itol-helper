@@ -5,7 +5,8 @@ from pathlib import Path
 from typing import List, Union
 
 from Bio import SeqIO  # type: ignore
-from Bio.Phylo import NewickIO
+from Bio.Phylo import NewickIO  # type: ignore
+from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 
@@ -94,3 +95,45 @@ def read_ids(path: PathLike) -> List[str]:
             ids = _read_ids_from_newick(path)
 
     return ids
+
+
+class SeqRecord(BaseModel):
+    id: str
+    seq: str
+
+
+def _read_seqrecords_from_fasta(path: Path) -> List[SeqRecord]:
+    recs = []
+    with open(path) as f:
+        for rec in SeqIO.parse(f, format="fasta"):
+            recs.append(SeqRecord(id=rec.id, seq=str(rec.seq)))
+    return recs
+
+
+def _read_seqrecords_from_phy(path: Path) -> List[SeqRecord]:
+    recs = []
+    with open(path) as f:
+        # skip first line
+        f.readline()
+
+        for line in f:
+            id, seq = line.strip().split(" ")
+            recs.append(SeqRecord(id=id.strip(), seq=seq.strip()))
+    return recs
+
+
+def read_seq_records(path: PathLike) -> List[SeqRecord]:
+    if isinstance(path, str):
+        path = Path(path)
+
+    file_type = FileType.detect(path)
+    logger.debug(file_type)
+
+    if file_type == FileType.fasta:
+        recs = _read_seqrecords_from_fasta(path)
+    elif file_type == FileType.phy:
+        recs = _read_seqrecords_from_phy(path)
+    else:
+        raise IOError("only support fasta and phy format")
+
+    return recs

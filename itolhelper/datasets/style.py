@@ -1,8 +1,7 @@
+import logging
 from typing import List, Literal, Optional
 
 from .config import DatasetConfig
-
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -83,9 +82,7 @@ def create_data(
     data = f"{id},{type},{what},{color},{str(width_or_size_factor)},{style}"
     if background_color is not None:
         if type != "label":
-            logger.warn(
-                "background color can set if you set type as label. skip background color."
-            )
+            logger.warn("background color can set if you set type as label. skip background color.")
         else:
             data += f",{background_color}"
 

@@ -90,6 +90,7 @@ def create_data(
 
 
 def generate_text(ids: List[str], config: DatasetConfig, label: str = "text") -> str:
+    """create text label after id"""
     colormap = config.colormap
     template = [TEMPLATE.replace("@label@", label)]
     logger.debug(config.id_to_name)
@@ -97,9 +98,10 @@ def generate_text(ids: List[str], config: DatasetConfig, label: str = "text") ->
         _label = config.id_to_name.get(id)
 
         if _label is not None:
-            label = f"({_label})"
-        else:
-            label = ""
+            # If label is None, we do not add data
+            continue
+
+        label = f"({_label})"
 
         template.append(create_data(node_id=id, label=label, color=colormap.get_color(id)))
 
