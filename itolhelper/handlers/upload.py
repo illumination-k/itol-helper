@@ -1,4 +1,5 @@
 import argparse
+import json
 import logging
 import os
 import tempfile
@@ -17,6 +18,9 @@ class UploadParams(BaseModel):
     projectName: str = Field(alias="project_name")
     treeName: Optional[str] = Field(None, alias="tree_name")
     treeDescription: Optional[str] = Field(None, alias="tree_description")
+
+    class Config:
+        json_encoders = {SecretStr: lambda v: v.get_secret_value() if v else None}
 
 
 class Uploader:
@@ -37,7 +41,7 @@ class Uploader:
         )
 
     def add_file(self, path: Path) -> None:
-        if not path.is_file():
+        if not Path.is_file(path):
             raise IOError(f"{str(path)} is not a file")
 
         self.files.append(path)
@@ -56,9 +60,17 @@ class Uploader:
         with self._prepare_zipfile() as zip:
             zip_file = open(zip.name, "rb")
             files = {"zipFile": zip_file}
-            resp = requests.post(self.url, data=self.params.dict(exclude_none=True), files=files)
+
+            logger.debug(self.params.dict(exclude_none=True))
+            resp = requests.post(
+                self.url, data=json.loads(self.params.json(exclude_none=True)), files=files
+            )
 
             logger.debug(resp)
+            logger.debug(resp.content)
+
+            if resp.content.startswith(b"ERR"):
+                logger.error(resp.content.decode("utf-8"))
             zip_file.close()
 
 
@@ -81,8 +93,7 @@ def upload(args: argparse.Namespace) -> None:
     )
 
     for path in os.listdir(os.path.abspath(args.dir)):
+        path = os.path.join(os.path.abspath(args.dir), path)
         uploader.add_file(Path(path))
-
-    logger.debug(uploader)
 
     uploader.upload()

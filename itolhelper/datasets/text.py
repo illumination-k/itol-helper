@@ -97,7 +97,7 @@ def generate_text(ids: List[str], config: DatasetConfig, label: str = "text") ->
     for id in ids:
         _label = config.id_to_name.get(id)
 
-        if _label is not None:
+        if _label is None:
             # If label is None, we do not add data
             continue
 
