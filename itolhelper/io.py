@@ -84,15 +84,16 @@ def read_ids(path: PathLike) -> List[str]:
 
     file_type = FileType.detect(path)
     logger.debug(file_type)
-    match file_type:
-        case FileType.fasta:
-            ids = _read_ids_from_fasta(path)
-        case FileType.phy:
-            ids = _read_ids_from_phy(path)
-        case FileType.txt:
-            ids = _read_ids_from_txt(path)
-        case FileType.nwk:
-            ids = _read_ids_from_newick(path)
+
+    mapf = {
+        FileType.fasta: _read_ids_from_fasta,
+        FileType.phy: _read_ids_from_phy,
+        FileType.nwk: _read_ids_from_newick,
+        FileType.txt: _read_ids_from_txt,
+    }
+
+    read = mapf[file_type]
+    ids = read(path)
 
     return ids
 
