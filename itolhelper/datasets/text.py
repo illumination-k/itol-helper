@@ -1,5 +1,5 @@
 import logging
-from typing import Dict, List, Literal
+from typing import Literal
 
 from .config import DatasetConfig
 
@@ -89,7 +89,7 @@ def create_data(
     return f"{node_id},{label},{str(position)},{color},{style},{str(size_factor)},{str(rotation)}"
 
 
-def generate_text(ids: List[str], config: DatasetConfig, label: str = "text") -> str:
+def generate_text(ids: list[str], config: DatasetConfig, label: str = "text") -> str:
     """create text label after id"""
     colormap = config.colormap
     template = [TEMPLATE.replace("@label@", label)]
