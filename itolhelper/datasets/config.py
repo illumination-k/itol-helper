@@ -2,7 +2,7 @@ import json
 import logging
 from io import BytesIO, StringIO, TextIOWrapper
 from pathlib import Path
-from typing import Dict, Optional, Pattern, Union
+from typing import Dict, Pattern, Union
 
 from pydantic import BaseModel
 
@@ -33,7 +33,8 @@ class DatasetConfig(BaseModel):
     def load_config(config: Union[TextIOWrapper, StringIO, BytesIO]) -> "DatasetConfig":
         _config = json.load(config)
 
-        default_color = _config.get("default_color", "black")
+        # default color is black
+        default_color = _config.get("default_color", "#000000")
         map = _config.get("colormap", {})
         id_to_name = _config.get("id_to_name", {})
 
