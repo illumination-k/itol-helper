@@ -29,7 +29,7 @@ def main():
         "-i", "--ids", type=str, required=True, help="file contained ID (nwk, fasta, phy or txt)"
     )
     text_parser.add_argument("-c", "--config", type=str, required=True, help="config file")
-    text_parser.add_argument("-l", "--label", type=str, default="text")
+    text_parser.add_argument("-l", "--label", type=str, default="aliases")
     text_parser.set_defaults(handler=handlers.text)
 
     style_parser = subparsers.add_parser("style")
@@ -37,7 +37,7 @@ def main():
         "-i", "--ids", type=str, required=True, help="file contained ID (nwk, fasta, phy or txt)"
     )
     style_parser.add_argument("-c", "--config", type=str, required=True, help="config file")
-    style_parser.add_argument("-l", "--label", type=str, default="style")
+    style_parser.add_argument("-l", "--label", type=str, default="label-style")
     style_parser.set_defaults(handler=handlers.style)
 
     alignment_parser = subparsers.add_parser("alignment")
@@ -56,7 +56,7 @@ def main():
         "-i", "--ids", type=str, required=True, help="file contained ID (nwk, fasta, phy or txt)"
     )
     branch_symbol_parser.add_argument("-c", "--config", type=str, required=True, help="config file")
-    branch_symbol_parser.add_argument("-l", "--label", type=str, default="style")
+    branch_symbol_parser.add_argument("-l", "--label", type=str, default="branch-symbols")
     branch_symbol_parser.set_defaults(handler=handlers.branch_symbols)
 
     args = parser.parse_args()
