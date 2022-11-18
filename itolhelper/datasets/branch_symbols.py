@@ -1,4 +1,5 @@
 from typing import Literal
+
 from .config import DatasetConfig
 
 TEMPLATE = """DATASET_SYMBOL
@@ -94,16 +95,17 @@ DATA
 
 SHAPE = Literal[1, 2, 3, 4, 5]
 
+
 def create_data(node_id: str, shape: SHAPE, color: str, fill: int = 1, position: float = 1.0):
-    data = f'{node_id},{str(shape)},{color},{fill},{position}'
+    data = f"{node_id},{str(shape)},{color},{fill},{position}"
     return data
 
 
 def generate_branch_symbols(ids: list[str], config: DatasetConfig, label: str):
     template = [TEMPLATE.replace("@label@", label)]
-    
+
     for id in ids:
         data = create_data(node_id=id, shape=2, color=config.colormap.get_color(id))
         template.append(data)
-        
+
     return "\n".join(template)

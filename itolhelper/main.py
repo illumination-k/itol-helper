@@ -58,7 +58,7 @@ def main():
     branch_symbol_parser.add_argument("-c", "--config", type=str, required=True, help="config file")
     branch_symbol_parser.add_argument("-l", "--label", type=str, default="style")
     branch_symbol_parser.set_defaults(handler=handlers.branch_symbols)
-    
+
     args = parser.parse_args()
 
     set_loglevel(args.loglevel)

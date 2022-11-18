@@ -1,8 +1,8 @@
 import argparse
 import logging
 
-from itolhelper.datasets.config import DatasetConfig
 from itolhelper.datasets.branch_symbols import generate_branch_symbols
+from itolhelper.datasets.config import DatasetConfig
 from itolhelper.io import read_ids
 
 logger = logging.getLogger(__name__)
