@@ -11,7 +11,7 @@ colormap_config = """
     "colormap": {
         "^Mp": "black",
         "^Pp": "green",
-        "\\\d+": "sky"
+        "\\\d+": "blue"
     }
 }
 """
@@ -23,9 +23,9 @@ def test_load_colormap_config():
     assert re.compile("^Pp") in config.colormap.map
     assert re.compile("\\d+") in config.colormap.map
 
-    assert config.colormap.get_color("Mp1g11000") == "black"
-    assert config.colormap.get_color("Pp3c10_25160V3.1.p") == "green"
-    assert config.colormap.get_color("11200") == "sky"
+    assert config.colormap.get_color("Mp1g11000") == "#000"
+    assert config.colormap.get_color("Pp3c10_25160V3.1.p") == "#008000"
+    assert config.colormap.get_color("11200") == "#00f"
 
 
 # Check read from path
