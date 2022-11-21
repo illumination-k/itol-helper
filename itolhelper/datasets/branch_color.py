@@ -76,3 +76,11 @@ DATA
 #all leaf labels in a clade will be displayed in red
 #2097|1502,label,clade,#ff0000,1,normal
 """
+
+"""
+Treeのbranchを種別に色分けする
+
+1. OTU の種別に進化の順番を決める
+2. Internal Nodeの持つOTUのうち、一番最初の進化の順番のものに色を変える
+3. もし同じ進化の順番であれば、一番距離が近いノード
+"""

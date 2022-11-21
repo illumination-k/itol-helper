@@ -96,7 +96,9 @@ DATA
 SHAPE = Literal[1, 2, 3, 4, 5]
 
 
-def create_data(node_id: str, shape: SHAPE, size: int, color: str, fill: int = 1, position: float = 1.0):
+def create_data(
+    node_id: str, shape: SHAPE, size: int, color: str, fill: int = 1, position: float = 1.0
+):
     data = f"{node_id},{str(shape)},{str(size)},{color},{fill},{position}"
     return data
 

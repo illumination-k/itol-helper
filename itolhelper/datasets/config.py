@@ -15,7 +15,7 @@ class ColorMap(BaseModel):
     map: Dict[Pattern, Color]
 
     def get_color(self, value: str) -> str:
-        logger.debug(f"KEY: {value}")
+        logger.debug(f"--- KEY: {value} ---")
         default_color = self.default_color.as_hex()
 
         for pat, color in self.map.items():
@@ -25,6 +25,20 @@ class ColorMap(BaseModel):
 
         return default_color
 
+
+class EvolutionaryOrderMap(BaseModel):
+    map: Dict[Pattern, int]
+    
+    def get_order(self, value: str) -> int:
+        logger.debug(f"--- KEY: {value} ---")
+        default_order = -1
+        
+        for pat, ord in self.map.items():
+            logger.debug(f"pattern: {str(pat)}, order: {str(ord)}")
+            if pat.match(value) is not None:
+                return ord
+            
+        return default_order
 
 class DatasetConfig(BaseModel):
     colormap: ColorMap
@@ -37,7 +51,7 @@ class DatasetConfig(BaseModel):
         # default color is black
         default_color = _config.get("default_color", "#000000")
         id_to_name = _config.get("id_to_name", {})
-        
+
         _map: dict[str, str] = _config.get("colormap", {})
         map = {k: Color(v) for k, v in _map.items()}
         colormap = ColorMap(map=map, default_color=default_color)
