@@ -29,7 +29,7 @@ options:
 #### Example
 
 ```bash
-poetry run ih upload -d /path/to/upload_dir --api-key $your_api_key --project-name $your_project_name  
+poetry run ih upload -d /path/to/upload_dir --api-key $your_api_key --project-name $your_project_name
 ```
 
 ### text
@@ -72,3 +72,15 @@ options:
 ```
 
 ### alignment
+
+`fasta/phy`からitolのalignment styleに変換
+
+```
+usage: ih alignment [-h] -i INPUT [-l LABEL]
+
+options:
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        file contained multple alignment. fasta and phy are supported
+  -l LABEL, --label LABEL
+```
