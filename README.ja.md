@@ -14,6 +14,9 @@ poetry install
 
 ### Upload
 
+系統樹とItolのスタイルファイルを含んだディレクトリをアップロードします。
+ディレクトリには系統樹とItolのスタイルファイル以外を含まないようにしてください。
+
 ```
 usage: ih upload [-h] [--api-key API_KEY] -p PROJECT_NAME [--tree-name TREE_NAME] [--tree-description TREE_DESCRIPTION] -d DIR
 
@@ -34,6 +37,8 @@ poetry run ih upload -d /path/to/upload_dir --api-key $your_api_key --project-na
 
 ### text
 
+configファイルをもとに、LabelにAliasを追加します。
+
 ```
 usage: ih text [-h] -i IDS -c CONFIG [-l LABEL]
 
@@ -47,6 +52,8 @@ options:
 
 ### style
 
+configファイルをもとに、Labelの色を変更します。
+
 ```
 usage: ih style [-h] -i IDS -c CONFIG [-l LABEL]
 
@@ -59,6 +66,8 @@ options:
 ```
 
 ### branch-symbols
+
+configファイルをもとに、branch symbolを生成します。
 
 ```
 usage: ih branch-symbols [-h] -i IDS -c CONFIG [-l LABEL]
@@ -88,6 +97,14 @@ options:
 ## Config
 
 itolのスタイルファイルを生成するときに必要なJSON形式のファイルです。
+
+### Colormap
+
+`colormap`フィールドに正規表現をKey、カラーコードをValueとするオブジェクトを指定します。Label、barnch-symbolsの色に対応します。
+
+### Id to Name
+
+`id_to_name`フィールドにノードの値をKey, 表示したい名前をValueとするオブジェクトを指定します。Aliasを作成する時に使用します。
 
 ### Example
 
