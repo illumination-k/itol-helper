@@ -84,3 +84,37 @@ options:
                         file contained multple alignment. fasta and phy are supported
   -l LABEL, --label LABEL
 ```
+
+## Config
+
+itolのスタイルファイルを生成するときに必要なJSON形式のファイルです。
+
+### Example
+
+```json
+{
+  "colormap": {
+    "^Mp": "#4b0082",
+    "^Pp": "#32cd32",
+    "^Apun": "#800000",
+    "^Smoe": "#00bfff",
+    "^Azfi|^Sacu": "#2f4f4f",
+    "^MA": "#66cdaa",
+    "^Nycol|^evm": "#adff2f",
+    "^LOC": "#ffb6c1",
+    "^AT": "#daa520",
+    "^jgi": "#696969",
+    "^Cre|^Ol": "#000000"
+  },
+  "id_to_name": {
+    "AT1G29160.1": "AtCOG1",
+    "AT1G26790.1": "AtCDF6",
+    "AT1G69570.1": "AtCDF5",
+    "AT2G46590.1": "AtDAG2",
+    "AT2G34140.1": "AtCDF4",
+    "AT3G47500.1": "AtCDF3",
+    "AT5G39660.1": "AtCDF2",
+    "AT5G62430.1": "AtCDF1"
+  }
+}
+```
