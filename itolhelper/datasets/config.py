@@ -37,7 +37,7 @@ class DatasetConfig(BaseModel):
         # default color is black
         default_color = _config.get("default_color", "#000000")
         id_to_name = _config.get("id_to_name", {})
-        
+
         _map: dict[str, str] = _config.get("colormap", {})
         map = {k: Color(v) for k, v in _map.items()}
         colormap = ColorMap(map=map, default_color=default_color)
