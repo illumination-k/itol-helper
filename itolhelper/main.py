@@ -59,6 +59,14 @@ def main():
     branch_symbol_parser.add_argument("-l", "--label", type=str, default="branch-symbols")
     branch_symbol_parser.set_defaults(handler=handlers.branch_symbols)
 
+    meme_parser = subparsers.add_parser("meme")
+    meme_parser.add_argument(
+        "-i", "--input", type=str, required=True, help="file contained meme output xml"
+    )
+    meme_parser.add_argument("-o", "--output", type=str, default=None, help="output file")
+    meme_parser.add_argument("-m", "--keep_motif_sequences", nargs="*", default=None, help="Specify keep motif sequences")
+    meme_parser.set_defaults(handler=handlers.meme_converter)
+    
     args = parser.parse_args()
 
     set_loglevel(args.loglevel)
