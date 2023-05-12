@@ -64,9 +64,11 @@ def main():
         "-i", "--input", type=str, required=True, help="file contained meme output xml"
     )
     meme_parser.add_argument("-o", "--output", type=str, default=None, help="output file")
-    meme_parser.add_argument("-m", "--keep_motif_sequences", nargs="*", default=None, help="Specify keep motif sequences")
+    meme_parser.add_argument(
+        "-m", "--keep_motif_sequences", nargs="*", default=None, help="Specify keep motif sequences"
+    )
     meme_parser.set_defaults(handler=handlers.meme_converter)
-    
+
     args = parser.parse_args()
 
     set_loglevel(args.loglevel)
