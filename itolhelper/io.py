@@ -21,7 +21,7 @@ class FileType(Enum):
 
     @staticmethod
     def detect(path: Path) -> "FileType":
-        fasta_exts = [".fa", ".fasta", ".faa"]
+        fasta_exts = [".fa", ".fasta", ".faa", ".afa"]
         txt_exts = [".txt"]
         phy_exts = [".phy"]
         nwk_exts = [".newick", ".nwk", ".support", ".tree"]
